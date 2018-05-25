@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const $ = require('jquery');
+const helper = require('../helpers/github.js');
 
 let app = express();
-
+app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
