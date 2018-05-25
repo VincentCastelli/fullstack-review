@@ -1,20 +1,20 @@
 const request = require('request');
 const config = require('../config.js');
 
-let getReposByUsername = (username) => {
+let getReposByUsername = (dataObj) => {
 
   let options = {
-    url: `https://api.github.com/users/${username}/repos/`,
+    url: `https://api.github.com/users/${dataObj.username}/repos/`,
     headers: {
       'User-Agent': 'request',
       'Authorization': `token ${config.TOKEN}`
     }
   };
-  
+
   request(options, (err, res, body) => {
     if (!err && res.statusCode === 200) {
       let data = JSON.parse(body);
-      console.log(data.body);
+      console.log('----------> ', data.body); // callback?
     }
   })
   // TODO - Use the request module to request repos for a specific
