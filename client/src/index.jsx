@@ -10,6 +10,24 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
+  }
+
+  componentWillMount() {
+    this.getRepos();
+  }
+
+  getRepos() {
+    $.ajax({
+      type: "GET",
+      url: 'http://localhost:1128/repos',
+      contentType: 'application/json',
+      success: (data) => {
+        console.log('Success! Connected with server to fetch repos.')
+        this.setState({
+          repos: data,
+        })
+      }
+    })
 
   }
 
@@ -22,7 +40,8 @@ class App extends React.Component {
       data: JSON.stringify(dataObj),
       contentType: 'application/json',
       success: () => {
-        console.log('Post sent!');
+        console.log('Success! Connected with server to post repos.');
+        this.getRepos();
       }
 
     })

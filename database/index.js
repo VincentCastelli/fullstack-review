@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
+  
+  repoId: { type: Number, unique: true},
   name: String,
   ownerId: Number,
   ownerLogin: String,
@@ -17,10 +19,12 @@ let repoSchema = mongoose.Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (dataObj, callback) => {
-  Repo.create(dataObj, (err) => {
+  Repo.create(dataObj, (err, obj) => {
     if (err) {
+      console.log('Error:', err);
       callback(err);
     } else {
+      console.log('CREATED OBJECTS', obj);
       callback(null);
     }
     
