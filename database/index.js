@@ -12,19 +12,19 @@ let repoSchema = mongoose.Schema({
   watchers_count: Number,
   created_at: Date,
   updated_at: Date
-
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (dataObj) => {
-  let repo = new Repo(dataObj);
-
-  repo.save((err) => {
+let save = (dataObj, callback) => {
+  Repo.create(dataObj, (err) => {
     if (err) {
-      console.log('Could not save data to MongoDB');
+      callback(err);
+    } else {
+      callback(null);
     }
+    
   });
-}
+};
 
 module.exports.save = save;

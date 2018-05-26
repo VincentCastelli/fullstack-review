@@ -10,8 +10,9 @@ app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
   helper.getReposByUsername(req.body, (objArray) => {
-    objArray.forEach((repo) => {
-      
+    
+  let dataArray = objArray.map((repo) => {
+
       let repoObj = {
         name: repo['name'],
         ownerId: repo['owner']['id'],
@@ -24,11 +25,20 @@ app.post('/repos', function (req, res) {
         created_at: repo['created_at'],
         updated_at: repo['updated_at']
       }
-
-      dbSave.save(repoObj);
+      return repoObj;
     });
-    res.status(201).send();
+    console.log('--------->', dataArray);
+
+    dbSave.save(dataArray, (err) => {
+      if (err) {
+        console.log(`Error: ${err}`);
+      } else {
+        res.status(201).send();
+      }
+    });
   });
+  
+  
 });
 
 app.get('/repos', function (req, res) {
