@@ -22,6 +22,7 @@ class App extends React.Component {
       url: 'http://localhost:1128/repos',
       contentType: 'application/json',
       success: (data) => {
+        console.log('DATA............. ', data);
         console.log('Success! Connected with server to fetch repos.')
         this.setState({
           repos: data,

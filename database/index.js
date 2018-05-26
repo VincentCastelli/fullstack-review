@@ -24,11 +24,14 @@ let save = (dataObj, callback) => {
       console.log('Error:', err);
       callback(err);
     } else {
-      console.log('CREATED OBJECTS', obj);
+      console.log('CREATED OBJECTS: ', obj);
       callback(null);
     }
-    
   });
+};
+
+let find = () => {
+
 };
 
 module.exports.save = save;
