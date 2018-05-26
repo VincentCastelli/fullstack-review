@@ -2,9 +2,15 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
-  id: Number,
-  fullname: String,
-  owner: { id: Number, login: String, url: String, repos_url: String },
+  name: String,
+  owner: { 
+    id: Number, 
+    login: String, 
+    url: { 
+      type: String,
+      unique: true
+    }
+  },
   private: Boolean,
   description: String,
   created_at: Date,

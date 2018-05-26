@@ -1,10 +1,11 @@
 const request = require('request');
 const config = require('../config.js');
+const dbSave = require('../database/index.js');
 
 let getReposByUsername = (dataObj) => {
 
   let options = {
-    url: `https://api.github.com/users/${dataObj.username}/repos/`,
+    url: `https://api.github.com/users/${dataObj.username}/repos`,
     headers: {
       'User-Agent': 'request',
       'Authorization': `token ${config.TOKEN}`
@@ -12,11 +13,12 @@ let getReposByUsername = (dataObj) => {
   };
 
   request(options, (err, res, body) => {
-    if (!err && res.statusCode === 200) {
-      let data = JSON.parse(body);
-      console.log('----------> ', data.body); // callback?
+    if (!err) {
+      console.log('----------> ', JSON.parse(body));
+      dbSave.save(JSON.parse(body));
+       // callback?
     }
-  })
+  });
   // TODO - Use the request module to request repos for a specific
   // user from the github API
 
