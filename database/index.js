@@ -3,18 +3,16 @@ mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
   name: String,
-  owner: { 
-    id: Number, 
-    login: String, 
-    url: { 
-      type: String,
-      unique: true
-    }
-  },
+  ownerId: Number,
+  ownerLogin: String,
+  ownerUrl: String,
   private: Boolean,
   description: String,
+  stargazers_count: Number,
+  watchers_count: Number,
   created_at: Date,
   updated_at: Date
+
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
