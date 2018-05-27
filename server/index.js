@@ -31,11 +31,10 @@ app.post('/repos', function (req, res) {
 
     dbSave.save(dataArray, (err) => {
       if (err) {
-        console.log(`Error: ${err}`);
-        console.log('-----------> No new repos to fetch <-----------');
+        return console.error(`Failed to save repos to database: ${err}`);
         res.send();
       } else {
-        res.status(201).send();
+        res.status(201).send('OK');
       }
     });
   });
@@ -44,9 +43,16 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should send back the top 25 repos
-  res.status(200).send(); 
+  dbSave.find({}, (err, data) => {
+    if (err) {
+      res.status(404).send(`Failed to GET repos from database: ${err}`);
+    } else {
+      let sortedData = data.sort((repo1, repo2) => {
+        return repo2.created_at - repo1.created_at;
+      });
+      res.status(200).send(sortedData.slice(0, sortedData.length - 1));
+    }
+  });
 });
 
 let port = 1128;

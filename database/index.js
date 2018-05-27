@@ -30,8 +30,16 @@ let save = (dataObj, callback) => {
   });
 };
 
-let find = () => {
+let find = (objectParams, callback) => {
+  Repo.find(objectParams, (err, data) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, data);
+    }
+  })
 
 };
 
 module.exports.save = save;
+module.exports.find = find;

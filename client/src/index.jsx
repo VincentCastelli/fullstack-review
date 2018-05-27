@@ -17,16 +17,17 @@ class App extends React.Component {
   }
 
   getRepos() {
+
     $.ajax({
       type: "GET",
       url: 'http://localhost:1128/repos',
-      contentType: 'application/json',
       success: (data) => {
-        console.log('DATA............. ', data);
-        console.log('Success! Connected with server to fetch repos.')
         this.setState({
           repos: data,
         })
+      },
+      error: (err) => {
+        console.error(`Failed to GET repos from the server: ${err}`);
       }
     })
 
@@ -35,6 +36,7 @@ class App extends React.Component {
   search(term) {
     console.log(`${term} was searched`);
     let dataObj = { username: term };
+
     $.ajax({
       type: "POST",
       url: 'http://localhost:1128/repos',
@@ -43,9 +45,12 @@ class App extends React.Component {
       success: () => {
         console.log('Success! Connected with server to post repos.');
         this.getRepos();
+      },
+      error: (err) => {
+        console.error(`Failed to POST to the server: ${err}`);
       }
 
-    })
+    });
   }
 
   render() {
